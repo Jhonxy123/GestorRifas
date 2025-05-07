@@ -2,60 +2,45 @@ package com.udistrital.gestorrifas
 
 import MenuScreen
 import RifasScreen
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.udistrital.gestorrifas.ui.theme.GestorRifasTheme
-//import com.udistrital.gestorrifas.vistas.rifas.RifasScreen
-import com.udistrital.gestorrifas.vistas.rifas.TalonarioScreen
+import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModel
+import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModelFactory
 
 class MainActivity : ComponentActivity() {
+
+    // Crear el ViewModel usando la fábrica personalizada
+    private val rifaViewModel: RifaViewModel by viewModels {
+        RifaViewModelFactory(application as Application)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MaterialTheme {
-                //TalonarioScreen()
-                //RifasScreen()
-                //MenuScreen()
+            GestorRifasTheme {
                 Surface(
-                    modifier = androidx.compose.ui.Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // Llamamos a tu pantalla
+                    // Pasamos la lógica de guardar desde el ViewModel
+
+                    /*
                     RifasScreen { nombre, fecha ->
-                        // Aquí recibes el nombre y la fecha cuando el usuario pulsa "Guardar"
-                        // Por ejemplo, muestra un log o navega a otra pantalla
-                        println("Rifa creada: $nombre en fecha $fecha")
-                    }
+                        rifaViewModel.guardarRifa(nombre, fecha)
+                    }*/
+                    MenuScreen()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GestorRifasTheme {
-        Greeting("Android")
     }
 }

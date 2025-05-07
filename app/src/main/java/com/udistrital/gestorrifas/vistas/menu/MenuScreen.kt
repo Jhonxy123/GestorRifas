@@ -1,14 +1,10 @@
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,24 +12,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.livedata.observeAsState
+import com.udistrital.gestorrifas.datos.local.entidad.Rifa
+import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModel
 
 @Composable
-fun MenuScreen() {
+fun MenuScreen(viewModel: RifaViewModel = viewModel()) {
     var searchText by remember { mutableStateOf("") }
 
-    // Ejemplo de datos; en producción vendrían de ViewModel/Repositorio
-    val allRifas = listOf(
-        Rifa("Rifa 1", 21, "25-12-2025"),
-        Rifa("Rifa 2", 65, "25-12-2025"),
-        Rifa("Rifa 3", 21, "25-12-2025"),
-        Rifa("Rifa 4", 21, "25-12-2025"),
-    )
+    // Observar rifas desde el ViewModel (LiveData)
+    val rifasDb by viewModel.rifas.observeAsState(emptyList())
 
-    // Filtrado simple por nombre o fecha
-    val rifas = remember(searchText) {
-        allRifas.filter {
-            it.nombre.contains(searchText, ignoreCase = true)
-                    || it.fecha.contains(searchText)
+    // Convertir rifas a UI model + filtrado por texto
+    val rifas = remember(searchText, rifasDb) {
+        rifasDb.map {
+            RifaUI(
+                nombre = it.nombre,
+                fecha = it.fecha.toString(),
+                inscritos = it.boletas.count { b -> b != 0 }
+            )
+        }.filter {
+            it.nombre.contains(searchText, ignoreCase = true) ||
+                    it.fecha.contains(searchText)
         }
     }
 
@@ -60,7 +61,7 @@ fun MenuScreen() {
                 modifier = Modifier
                     .weight(1f)
                     .height(56.dp),
-                placeholder = { Text("Search by name or date") },
+                placeholder = { Text("Buscar por nombre o fecha") },
                 singleLine = true,
                 leadingIcon = {
                     Icon(Icons.Filled.Search, contentDescription = null)
@@ -71,13 +72,13 @@ fun MenuScreen() {
                 onClick = { /* el filtrado ya es reactivo */ },
                 modifier = Modifier.height(56.dp)
             ) {
-                Text("Search")
+                Text("Buscar")
             }
         }
 
         Spacer(Modifier.height(24.dp))
 
-        // Encabezado de la tabla (fijo)
+        // Encabezado
         Row(Modifier.fillMaxWidth()) {
             Text(
                 "Nombre",
@@ -100,7 +101,7 @@ fun MenuScreen() {
         }
         Divider(thickness = 1.dp)
 
-        // Lista desplazable
+        // Lista
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -124,7 +125,7 @@ fun MenuScreen() {
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = { /* navegar a creación de nueva rifa */ },
+            onClick = { /* navegar a pantalla de nueva rifa */ },
             modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .align(Alignment.CenterHorizontally)
@@ -134,11 +135,22 @@ fun MenuScreen() {
     }
 }
 
-data class Rifa(val nombre: String, val inscritos: Int, val fecha: String)
+// Modelo para mostrar en la UI
+data class RifaUI(val nombre: String, val inscritos: Int, val fecha: String)
 
-
+/*
 @Preview(showBackground = true)
 @Composable
-fun PreviewRifasScreen() {
-    MenuScreen()
+fun PreviewMenuScreen() {
+    // Solo para vista previa sin datos reales
+    val ejemplo = listOf(
+        RifaUI("Rifa 1", 10, "2025-12-25"),
+        RifaUI("Rifa 2", 5, "2025-12-26")
+    )
+    Column(modifier = Modifier.padding(16.dp)) {
+        ejemplo.forEach {
+            Text("${it.nombre} - ${it.inscritos} inscritos - ${it.fecha}")
+        }
+    }
 }
+*/
