@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MenuScreen() {
+fun MenuScreen(navigateToRifas: () -> Unit ) {
     var searchText by remember { mutableStateOf("") }
 
     // Ejemplo de datos; en producción vendrían de ViewModel/Repositorio
@@ -124,7 +124,7 @@ fun MenuScreen() {
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = { /* navegar a creación de nueva rifa */ },
+            onClick = { navigateToRifas() },
             modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .align(Alignment.CenterHorizontally)
@@ -137,8 +137,3 @@ fun MenuScreen() {
 data class Rifa(val nombre: String, val inscritos: Int, val fecha: String)
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewRifasScreen() {
-    MenuScreen()
-}

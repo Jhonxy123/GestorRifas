@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.udistrital.gestorrifas.core.NavigationWrapper
 import com.udistrital.gestorrifas.ui.theme.GestorRifasTheme
 //import com.udistrital.gestorrifas.vistas.rifas.RifasScreen
 import com.udistrital.gestorrifas.vistas.rifas.TalonarioScreen
@@ -25,10 +26,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MaterialTheme {
+                NavigationWrapper()
                 //TalonarioScreen()
                 //RifasScreen()
                 //MenuScreen()
-                Surface(
+                /*Surface(
                     modifier = androidx.compose.ui.Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
@@ -38,24 +40,10 @@ class MainActivity : ComponentActivity() {
                         // Por ejemplo, muestra un log o navega a otra pantalla
                         println("Rifa creada: $nombre en fecha $fecha")
                     }
-                }
+                }*/
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GestorRifasTheme {
-        Greeting("Android")
-    }
-}
