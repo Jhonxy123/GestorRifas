@@ -132,7 +132,9 @@ fun MenuScreen(viewModel: RifaViewModel = viewModel(), NuevaRifa: () -> Unit, Ta
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = {NuevaRifa()},
+            onClick = {
+                NuevaRifa()
+                      },
             modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .align(Alignment.CenterHorizontally)

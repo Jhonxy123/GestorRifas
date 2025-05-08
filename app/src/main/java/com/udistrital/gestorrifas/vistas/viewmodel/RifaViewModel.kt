@@ -2,6 +2,9 @@ package com.udistrital.gestorrifas.vistas.viewmodel
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -25,6 +28,27 @@ class RifaViewModel(aplicacion: Application) : AndroidViewModel(aplicacion) {
             repositorio.guardarRifa(rifa)
             Log.d("RifaViewModel", "Rifa guardada: \$rifa")
          //   consultarTodasLasRifas()
+        }
+    }
+
+    var rifa by mutableStateOf<Rifa?>(null)
+        private set
+
+    fun cargarRifa(nombre: String) {
+        viewModelScope.launch {
+            rifa = repositorio.obtenerRifa(nombre)
+        }
+    }
+    fun insertarRifaDePrueba() {
+        val boletas = List(100) { if (it in listOf(5, 20, 77)) 1 else 0 }
+        val rifa = Rifa(
+            nombre = "RifaDePrueba",
+            fecha = LocalDate.now(),
+            boletas = boletas
+        )
+
+        viewModelScope.launch {
+            repositorio.guardarRifa(rifa)
         }
     }
     /*

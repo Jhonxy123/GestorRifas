@@ -14,4 +14,6 @@ interface RifaDao {
     @Query("SELECT * FROM rifa")
     fun obtenerRifasLive(): LiveData<List<Rifa>>
 
+    @Query("SELECT * FROM Rifa WHERE nombre = :nombre LIMIT 1")
+    suspend fun obtenerRifaPorNombre(nombre: String): Rifa?
 }

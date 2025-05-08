@@ -25,14 +25,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModel
 
 @Composable
 fun TalonarioScreen(
-    rifaName: String = "Rifas 1",
-    unavailableNumbers: Set<Int> = setOf(2, 16, 80, 85) // ejemplos
+    rifaName: String,
+    viewModel: RifaViewModel = viewModel()
+    //unavailableNumbers: Set<Int> = setOf(2, 16, 80, 85) // ejemplos
 ) {
     var winningTicket by remember { mutableStateOf("") }
     var disabled by remember { mutableStateOf(false) }
+
+
+    val rifa by remember { derivedStateOf { viewModel.rifa } }
+
+    LaunchedEffect(rifaName) {
+        viewModel.cargarRifa(rifaName)
+    }
+
+    if (rifa == null) {
+        Text("Cargando rifa...")
+        return
+    }
+
+    val unavailableNumbers = remember(rifa) {
+        rifa!!.boletas.mapIndexedNotNull { index, value ->
+            if (value != 0) index else null
+        }.toSet()
+    }
+
 
     Column(
         modifier = Modifier
@@ -53,7 +75,7 @@ fun TalonarioScreen(
             columns = GridCells.Fixed(10),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)  // Ajusta según tu diseño
+                .height(400.dp)  // Ajusta según tu diseño
         ) {
             items((0 until 100).toList()) { number ->
                 val isUnavailable = unavailableNumbers.contains(number)
