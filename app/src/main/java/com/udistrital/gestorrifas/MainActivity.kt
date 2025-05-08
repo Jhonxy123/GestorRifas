@@ -1,6 +1,6 @@
 package com.udistrital.gestorrifas
 
-import MenuScreen
+//import MenuScreen
 import RifasScreen
 import android.app.Application
 import android.os.Bundle
@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.udistrital.gestorrifas.ui.theme.GestorRifasTheme
+import com.udistrital.gestorrifas.vistas.menu.MenuScreen
 import com.udistrital.gestorrifas.vistas.rifas.TalonarioScreen
 import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModel
 import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModelFactory
