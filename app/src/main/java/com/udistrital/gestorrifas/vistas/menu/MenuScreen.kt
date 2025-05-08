@@ -18,7 +18,7 @@ import com.udistrital.gestorrifas.datos.local.entidad.Rifa
 import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModel
 
 @Composable
-fun MenuScreen(viewModel: RifaViewModel = viewModel()) {
+fun MenuScreen(viewModel: RifaViewModel = viewModel(), NuevaRifa: () -> Unit) {
     var searchText by remember { mutableStateOf("") }
 
     // Observar rifas desde el ViewModel (LiveData)
@@ -125,7 +125,7 @@ fun MenuScreen(viewModel: RifaViewModel = viewModel()) {
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = { /* navegar a pantalla de nueva rifa */ },
+            onClick = {NuevaRifa()},
             modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .align(Alignment.CenterHorizontally)
