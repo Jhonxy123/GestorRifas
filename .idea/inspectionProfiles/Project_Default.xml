@@ -57,5 +57,9 @@
       <option name="composableFile" value="true" />
       <option name="previewFile" value="true" />
     </inspection_tool>
+<<<<<<< HEAD
+=======
+    <inspection_tool class="UsePropertyAccessSyntax" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+>>>>>>> 52061d8a6b0e0c4bec2fbf27265eb5f7b75263c7
   </profile>
 </component>

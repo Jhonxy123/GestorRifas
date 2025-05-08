@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Composable
-fun RifasScreen(onGuardar: (nombre: String, fecha: LocalDate) -> Unit) {
+fun RifasScreen(onGuardar: (nombre: String, fecha: LocalDate) -> Unit, Menu: () -> Unit) {
     var nombre by remember { mutableStateOf("") }
     var fecha by remember { mutableStateOf<LocalDate?>(null) }
 
@@ -94,6 +94,7 @@ fun RifasScreen(onGuardar: (nombre: String, fecha: LocalDate) -> Unit) {
         Button(
             onClick = {
                 fecha?.let { onGuardar(nombre, it) }
+                Menu()
             },
             modifier = Modifier
                 .fillMaxWidth()
