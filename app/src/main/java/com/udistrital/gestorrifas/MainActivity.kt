@@ -34,8 +34,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     // Pasamos la lógica de guardar desde el ViewModel
 
-                    /*
-                    RifasScreen { nombre, fecha ->
+
+                    /*RifasScreen { nombre, fecha ->
                         rifaViewModel.guardarRifa(nombre, fecha)
                     }*/
                     MenuScreen()
