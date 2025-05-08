@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
 
             var isMenuScreen by remember { mutableStateOf(false) }
             var numVista by remember {mutableStateOf(0)}
+            var nombreRifaSeleccionada by remember { mutableStateOf("") }
 
 
             GestorRifasTheme {
@@ -49,7 +50,11 @@ class MainActivity : ComponentActivity() {
                     when(numVista){
                         0 ->{
                             MenuScreen(
-                                NuevaRifa = { numVista = 1 }
+                                NuevaRifa = { numVista = 1 },
+                                Talonario = {
+                                                nombre -> nombreRifaSeleccionada = nombre
+                                                numVista = 3
+                                            }
                             )
                         }
                         1->{
@@ -62,6 +67,9 @@ class MainActivity : ComponentActivity() {
                                     numVista = 0
                                 }
                             )
+                        }
+                        3->{
+                            TalonarioScreen(nombreRifaSeleccionada)
                         }
 
                     }

@@ -18,7 +18,7 @@ import com.udistrital.gestorrifas.datos.local.entidad.Rifa
 import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModel
 
 @Composable
-fun MenuScreen(viewModel: RifaViewModel = viewModel(), NuevaRifa: () -> Unit) {
+fun MenuScreen(viewModel: RifaViewModel = viewModel(), NuevaRifa: () -> Unit, Talonario: (String) -> Unit) {
     var searchText by remember { mutableStateOf("") }
 
     // Observar rifas desde el ViewModel (LiveData)
@@ -117,6 +117,13 @@ fun MenuScreen(viewModel: RifaViewModel = viewModel(), NuevaRifa: () -> Unit) {
                     Text(rifa.nombre, Modifier.weight(1f), fontSize = 14.sp)
                     Text(rifa.inscritos.toString(), Modifier.weight(1f), fontSize = 14.sp)
                     Text(rifa.fecha, Modifier.weight(1f), fontSize = 14.sp)
+
+                    IconButton(
+                        onClick = { Talonario(rifa.nombre) },
+                        modifier = Modifier.size(24.dp)
+                    ) {
+                        Icon(Icons.Filled.Search, contentDescription = "Ver detalles")
+                    }
                 }
                 Divider(thickness = 0.5.dp)
             }
