@@ -67,13 +67,7 @@ fun MenuScreen(
                 singleLine = true,
                 leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) }
             )
-            Spacer(Modifier.width(8.dp))
-            Button(
-                onClick = { /* no hace falta: ya es reactivo */ },
-                modifier = Modifier.height(56.dp)
-            ) {
-                Text("Buscar")
-            }
+            //Spacer(Modifier.width(8.dp))
         }
 
         Spacer(Modifier.height(24.dp))
