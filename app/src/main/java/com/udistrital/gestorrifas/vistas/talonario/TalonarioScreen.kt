@@ -3,6 +3,7 @@ package com.udistrital.gestorrifas.vistas.rifas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -161,6 +162,19 @@ fun TalonarioScreen(
                 Icon(Icons.Default.Delete, contentDescription = "Eliminar")
                 Spacer(Modifier.width(4.dp))
                 Text("Eliminar")
+            }
+        }
+        Column(
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier.fillMaxSize()
+        ){
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize()
+            ){
+                Button(onClick = {/*Volver vista a Menu*/Menu()}) {
+                    Text("Volver")
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.udistrital.gestorrifas
 
-import MenuScreen
+//import MenuScreen
 import RifasScreen
 import android.app.Application
 import android.os.Bundle
@@ -9,7 +9,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import com.udistrital.gestorrifas.ui.theme.GestorRifasTheme
+import com.udistrital.gestorrifas.vistas.menu.MenuScreen
 import com.udistrital.gestorrifas.vistas.rifas.TalonarioScreen
 import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModel
 import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModelFactory
@@ -46,13 +49,15 @@ class MainActivity : ComponentActivity() {
 
 
             GestorRifasTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    /*RifasScreen { nombre, fecha ->
+                Scaffold { innerPadding ->
+                    Surface(
+                        modifier = Modifier.fillMaxSize().padding(innerPadding),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        /*RifasScreen { nombre, fecha ->
                         rifaViewModel.guardarRifa(nombre, fecha)
                     }*/
+
                     //MenuScreen()
                     when(numVista){
                         0 ->{
@@ -83,31 +88,10 @@ class MainActivity : ComponentActivity() {
                             }
                             )
                         }
+                        }
+                    }
+                }
 
-                    }
-                }
-                /*
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    if(isMenuScreen){
-                        RifasScreen(
-                            onGuardar = { nombre, fecha ->
-                                rifaViewModel.guardarRifa(nombre, fecha)
-                                isMenuScreen = false
-                            },
-                            Menu = {
-                                isMenuScreen = false
-                            }
-                        )
-                    }else{
-                        MenuScreen(
-                            NuevaRifa = { isMenuScreen = true }
-                        )
-                    }
-                }
-                */
             }
         }
     }
