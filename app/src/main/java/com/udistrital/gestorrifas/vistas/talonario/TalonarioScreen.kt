@@ -72,7 +72,7 @@ fun TalonarioScreen(
             columns = GridCells.Fixed(10),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(400.dp)
+                .height(350.dp)
         ) {
             items((0 until 100).toList()) { number ->
                 val isUnavailable = unavailableNumbers.contains(number)
