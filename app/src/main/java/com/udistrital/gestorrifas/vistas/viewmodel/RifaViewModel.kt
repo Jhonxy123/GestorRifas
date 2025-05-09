@@ -51,6 +51,30 @@ class RifaViewModel(aplicacion: Application) : AndroidViewModel(aplicacion) {
             repositorio.guardarRifa(rifa)
         }
     }
+
+    fun actualizarBoleta(numero: Int, ocupado: Boolean) {
+        rifa?.let { rifaActual ->
+            val nuevasBoletas = rifaActual.boletas.toMutableList()
+            nuevasBoletas[numero] = if (ocupado) 1 else 0
+            val rifaModificada = rifaActual.copy(boletas = nuevasBoletas)
+            viewModelScope.launch {
+                repositorio.guardarRifa(rifaModificada)
+                rifa = rifaModificada // actualiza la referencia local también
+            }
+        }
+    }
+    fun eliminarRifaPorNombre(nombre: String) {
+        viewModelScope.launch {
+            // Buscar la rifa por nombre
+            val rifa = repositorio.obtenerRifa(nombre)
+            rifa?.let {
+                repositorio.eliminarRifa(it) // Eliminar rifa por nombre
+                // Limpiar la referencia local
+                this@RifaViewModel.rifa = null
+            }
+        }
+    }
+
     /*
     fun consultarTodasLasRifas() {
         viewModelScope.launch {

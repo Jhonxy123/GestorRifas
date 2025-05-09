@@ -31,15 +31,15 @@ import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModel
 @Composable
 fun TalonarioScreen(
     rifaName: String,
-    viewModel: RifaViewModel = viewModel()
-    //unavailableNumbers: Set<Int> = setOf(2, 16, 80, 85) // ejemplos
+    viewModel: RifaViewModel = viewModel(),
+    Menu: () -> Unit
 ) {
     var winningTicket by remember { mutableStateOf("") }
     var disabled by remember { mutableStateOf(false) }
 
+    val rifa = viewModel.rifa
 
-    val rifa by remember { derivedStateOf { viewModel.rifa } }
-
+    // Carga inicial de la rifa
     LaunchedEffect(rifaName) {
         viewModel.cargarRifa(rifaName)
     }
@@ -49,19 +49,16 @@ fun TalonarioScreen(
         return
     }
 
-    val unavailableNumbers = remember(rifa) {
-        rifa!!.boletas.mapIndexedNotNull { index, value ->
-            if (value != 0) index else null
-        }.toSet()
-    }
-
+    // Se actualiza automáticamente cuando cambia viewModel.rifa
+    val unavailableNumbers = rifa.boletas.mapIndexedNotNull { index, value ->
+        if (value != 0) index else null
+    }.toSet()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Título
         Text(
             text = rifaName,
             style = MaterialTheme.typography.titleLarge,
@@ -70,12 +67,11 @@ fun TalonarioScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        // Grid de 10x10
         LazyVerticalGrid(
             columns = GridCells.Fixed(10),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(400.dp)  // Ajusta según tu diseño
+                .height(400.dp)
         ) {
             items((0 until 100).toList()) { number ->
                 val isUnavailable = unavailableNumbers.contains(number)
@@ -91,11 +87,7 @@ fun TalonarioScreen(
                                     .background(Color(0xFFFFAEC9))
                             } else {
                                 Modifier
-                                    .border(
-                                        width = 1.dp,
-                                        color = Color.Gray,
-                                        shape = CircleShape
-                                    )
+                                    .border(1.dp, Color.Gray, CircleShape)
                             }
                         )
                 ) {
@@ -110,7 +102,6 @@ fun TalonarioScreen(
 
         Spacer(Modifier.height(8.dp))
 
-        // Leyenda
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
@@ -124,7 +115,6 @@ fun TalonarioScreen(
 
         Spacer(Modifier.height(24.dp))
 
-        // Boleto ganador
         OutlinedTextField(
             value = winningTicket,
             onValueChange = { winningTicket = it },
@@ -136,10 +126,8 @@ fun TalonarioScreen(
         Spacer(Modifier.height(16.dp))
 
         // Switch Inhabilitar
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text("Inhabilitar", modifier = Modifier.weight(1f))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text("Habilitar", modifier = Modifier.weight(1f))
             Switch(
                 checked = disabled,
                 onCheckedChange = { disabled = it }
@@ -148,24 +136,29 @@ fun TalonarioScreen(
 
         Spacer(Modifier.height(24.dp))
 
-        // Botones Guardar / Eliminar
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Button(onClick = { /* Guardar acción */ }) {
-                Icon(
-                    imageVector = Icons.Default.Done,
-                    contentDescription = "Guardar"
-                )
+            Button(
+                onClick = {
+                    val numero = winningTicket.toIntOrNull()
+                    if (numero != null && numero in 0..99) {
+                        viewModel.actualizarBoleta(numero, ocupado = !disabled)
+                        winningTicket = ""
+                    }
+                }
+            ) {
+                Icon(Icons.Default.Done, contentDescription = "Guardar")
                 Spacer(Modifier.width(4.dp))
                 Text("Guardar")
             }
-            Button(onClick = { /* Eliminar acción */ }) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Eliminar"
-                )
+
+            Button(onClick = {
+                viewModel.eliminarRifaPorNombre(rifaName)  // Elimina por el nombre de la rifa
+                Menu()
+            }) {
+                Icon(Icons.Default.Delete, contentDescription = "Eliminar")
                 Spacer(Modifier.width(4.dp))
                 Text("Eliminar")
             }

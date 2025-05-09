@@ -18,4 +18,8 @@ class RepositorioRifa(private val rifaDao: RifaDao) {
     suspend fun obtenerRifa(nombre: String): Rifa? {
         return rifaDao.obtenerRifaPorNombre(nombre)
     }
+    suspend fun eliminarRifa(rifa: Rifa) {
+        rifaDao.eliminar(rifa)
+    }
+
 }

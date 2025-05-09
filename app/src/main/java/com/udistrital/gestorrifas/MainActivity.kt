@@ -73,7 +73,12 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         3->{
-                            TalonarioScreen(nombreRifaSeleccionada)
+                            TalonarioScreen(
+                                nombreRifaSeleccionada,
+                                Menu = {
+                                numVista = 0
+                            }
+                            )
                         }
 
                     }
