@@ -9,7 +9,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,42 +42,49 @@ class MainActivity : ComponentActivity() {
 
 
             GestorRifasTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    /*RifasScreen { nombre, fecha ->
+                Scaffold { innerPadding ->
+                    Surface(
+                        modifier = Modifier.fillMaxSize().padding(innerPadding),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        /*RifasScreen { nombre, fecha ->
                         rifaViewModel.guardarRifa(nombre, fecha)
                     }*/
-                    //MenuScreen()
-                    when(numVista){
-                        0 ->{
-                            MenuScreen(
-                                NuevaRifa = { numVista = 1 },
-                                Talonario = {
-                                                nombre -> nombreRifaSeleccionada = nombre
-                                                numVista = 3
-                                            }
-                            )
-                        }
-                        1->{
-                            RifasScreen(
-                                onGuardar = { nombre, fecha ->
-                                    rifaViewModel.guardarRifa(nombre, fecha)
-                                    numVista = 0
-                                },
-                                Menu = {
-                                    numVista = 0
-                                }
-                            )
-                        }
-                        3->{
-                            TalonarioScreen(nombreRifaSeleccionada)
-                        }
+                        //MenuScreen()
+                        when (numVista) {
+                            0 -> {
+                                MenuScreen(
+                                    NuevaRifa = { numVista = 1 },
+                                    Talonario = { nombre ->
+                                        nombreRifaSeleccionada = nombre
+                                        numVista = 3
+                                    }
+                                )
+                            }
 
+                            1 -> {
+                                RifasScreen(
+                                    onGuardar = { nombre, fecha ->
+                                        rifaViewModel.guardarRifa(nombre, fecha)
+                                        numVista = 0
+                                    },
+                                    Menu = {
+                                        numVista = 0
+                                    }
+                                )
+                            }
+
+                            3 -> {
+                                TalonarioScreen(nombreRifaSeleccionada,
+                                    Menu = {
+                                        numVista = 0
+                                    })
+                            }
+
+                        }
                     }
                 }
-                /*
+                    /*
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

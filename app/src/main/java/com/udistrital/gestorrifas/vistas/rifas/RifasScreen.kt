@@ -91,16 +91,37 @@ fun RifasScreen(onGuardar: (nombre: String, fecha: LocalDate) -> Unit, Menu: () 
         Spacer(modifier = Modifier.weight(1f))
 
         // Botón Guardar
-        Button(
-            onClick = {
-                fecha?.let { onGuardar(nombre, it) }
-                Menu()
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-        ) {
-            Text("Guardar")
+
+
+
+        Column(
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier.fillMaxSize()
+        ){
+            Button(
+                onClick = {
+                    fecha?.let { onGuardar(nombre, it) }
+                    Menu()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+            ) {
+                Text("Guardar")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize()
+            ){
+                Button(onClick = {/*Volver vista a Menu*/Menu()},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)) {
+                    Text("Volver")
+                }
+            }
         }
     }
 }

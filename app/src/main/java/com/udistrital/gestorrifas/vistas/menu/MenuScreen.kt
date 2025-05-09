@@ -36,6 +36,7 @@ fun MenuScreen(
         )
     }
 
+    Scaffold{innerPadding ->}
     Column(
         modifier = Modifier
             .fillMaxSize()
