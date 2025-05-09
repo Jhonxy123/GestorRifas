@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelProvider
 import com.udistrital.gestorrifas.ui.theme.GestorRifasTheme
 import com.udistrital.gestorrifas.vistas.rifas.TalonarioScreen
 import com.udistrital.gestorrifas.vistas.viewmodel.RifaViewModel
@@ -30,6 +31,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /*
+        val viewModel: RifaViewModel = ViewModelProvider(this)[RifaViewModel::class.java]
+
+        // Invoca la función de prueba
+        viewModel.insertarRifaDePrueba()
+        */
         enableEdgeToEdge()
         setContent {
 
@@ -69,7 +76,12 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         3->{
-                            TalonarioScreen(nombreRifaSeleccionada)
+                            TalonarioScreen(
+                                nombreRifaSeleccionada,
+                                Menu = {
+                                numVista = 0
+                            }
+                            )
                         }
 
                     }

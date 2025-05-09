@@ -14,4 +14,12 @@ class RepositorioRifa(private val rifaDao: RifaDao) {
     }
 
     fun obtenerRifasLive(): LiveData<List<Rifa>> = rifaDao.obtenerRifasLive()
+
+    suspend fun obtenerRifa(nombre: String): Rifa? {
+        return rifaDao.obtenerRifaPorNombre(nombre)
+    }
+    suspend fun eliminarRifa(rifa: Rifa) {
+        rifaDao.eliminar(rifa)
+    }
+
 }
